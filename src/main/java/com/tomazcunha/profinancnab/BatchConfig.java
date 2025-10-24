@@ -88,13 +88,24 @@ public class BatchConfig {
             .resource(new FileSystemResource("files/CNAB.txt")) // Usando caminho relativo.
             .fixedLength() // Que tipo de arquivo flat é esse? Tamanha fixo.
             .columns(
-                new Range(1, 1), new Range(2, 9),
-                new Range(10, 19), new Range(20, 30),
-                new Range(31, 42), new Range(43, 48),
-                new Range(49, 62), new Range(63, 80)
+                new Range(1, 1),
+                new Range(2, 9),
+                new Range(10, 19),
+                new Range(20, 30),
+                new Range(31, 42),
+                new Range(43, 48),
+                new Range(49, 62),
+                new Range(63, 80)
             ) // Permite informar as faixas de valores mostrada na documentação.
-            .names("tipo", "data", "valor", "cpf",
-                "cartao", "hora", "donoDaLoja", "nomeDaLoja"
+            .names(
+                "tipo",
+                "data",
+                "valor",
+                "cpf",
+                "cartao",
+                "hora",
+                "donoDaLoja",
+                "nomeDaLoja"
             ) // Declarando os nomes dos campos que correspondem as faixas de valores. Precisa ser os mesmos nomes que estão em TransacaoCNAB.
             .targetType(TransacaoCNAB.class)
             .build();
@@ -110,8 +121,21 @@ public class BatchConfig {
             // Wither (murchar, secar, intimidar, mirrar, perder vigor)
 
             // Wither pattern
-            var transacao = new Transacao(null, item.tipo(), null, null, item.cpf(), item.cartao(), null, item.donoDaLoja().trim(), item.nomeDaLoja().trim())
-            .withValor(item.valor().divide(BigDecimal.valueOf(100))) // Com o método criado no record, agora podemos passar o valor normalizado. Valor / 100. De acordo com a especificação, ele é um valor já multiplicado por 100, então precisamos dividir por 100 para normalizar em decimal.
+            var transacao = new Transacao(
+                null,
+                item.tipo(),
+                null,
+                // null, // valor recebia null
+                item.valor().divide(BigDecimal.valueOf(100)),
+                item.cpf(),
+                item.cartao(),
+                null,
+                item.donoDaLoja().trim(),
+                item.nomeDaLoja().trim()
+            )
+            // .withValor(item.valor().divide(BigDecimal.valueOf(100))) // Com o método criado no record, agora podemos passar o valor normalizado. Valor / 100. De acordo com a especificação, ele é um valor já multiplicado por 100, então precisamos dividir por 100 para normalizar em decimal.
+            // Alterando a passagem do valor para em vez de chamar '.withValor', passar direto a divisão no construtor. Isso porque não vamos mudar o valor, não vamos precisar fazer parses como na data e hora que possuem uma lógica de negócio.
+            // No '.withValor()', vai ser necessário mais afrente, que o valor seja puro, sem a divisão, por isso que essa divisão não está no '.withValor()'.
             .withData(item.data())
             .withHora(item.hora());
 

@@ -30,6 +30,17 @@ public record Transacao(
             this.hora(),
             this.donoDaLoja(),
             this.nomeDaLoja()
+
+            // Podemos manter dessa forma mais simples, 'valor' continua referente ao parâmetro, enquanto os outros itens ainda serão referentes aos campos.
+            // id,
+            // tipo,
+            // data,
+            // valor,
+            // cpf,
+            // cartao,
+            // hora,
+            // donoDaLoja,
+            // nomeDaLoja
         );
     }
 
