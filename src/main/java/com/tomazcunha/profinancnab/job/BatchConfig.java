@@ -6,6 +6,7 @@ import javax.sql.DataSource;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
@@ -20,9 +21,11 @@ import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilde
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.transform.Range;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
@@ -85,14 +88,22 @@ public class BatchConfig {
     // Criando a pasta 'files' e incluindo o arquivo 'files/CNAB.txt'
 
     // Criando um leitor
+    @StepScope // Preciso estar em um contexto de StepScope para poder acessar 'jobParameters'. Essa é uma anotação do Spring Bacth para injetar resource apenas quando estiver disponível.
     @Bean
     // Para arquivo com formato indefinido, diferente do XML e JSON.
-    FlatFileItemReader<TransacaoCNAB> reader() {
+    // FlatFileItemReader<TransacaoCNAB> reader() {
+    FlatFileItemReader<TransacaoCNAB> reader(
+            @Value("#{jobParameters['cnabFile']}") Resource resource
+            // Obtendo os parêmtros do Job com o nome do parâmetro 'cnabFile'.
+            // Agora o resource vai ser injetado automaticamente.
+        ) {
+
         // O return contem a lógica de leitura, implementado pelo 'FlatFileItemReaderBuilder' que vai devolver um objeto preenchido do tipo 'TransacaoCNAB'.
         return new FlatFileItemReaderBuilder<TransacaoCNAB>() // Padrão builder para ajudar na criação.
             .name("reader")
             // .resource(new FileSystemResource("/home/tomaz/1_Tomaz/Projetos4_Java/0_Desafios/Giuliana-Bezerra-Sistema-de-Pagamentos/profinancnab/files/CNAB.txt")) // O arquivo que vai ser lido. Caminho obsoluto.
-            .resource(new FileSystemResource("files/CNAB.txt")) // Usando caminho relativo.
+            // .resource(new FileSystemResource("files/CNAB.txt")) // Usando caminho relativo.
+            .resource(resource) //
             .fixedLength() // Que tipo de arquivo flat é esse? Tamanha fixo.
             .columns(
                 new Range(1, 1),

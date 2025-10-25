@@ -37,3 +37,4 @@ out/
 .vscode/
 data/db.mv.db
 data/db.trace.db
+temp/CNAB-2.txt
