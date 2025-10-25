@@ -33,3 +33,57 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+// Para remover os arquivos do banco.
+// task cleanH2Database(type: Delete) {
+//     delete fileTree(dir: '.', includes: ['data/db.mv.db', 'data/db.trace.db', 'data/db.lock.db'])
+//     // delete 'data'
+// }
+
+// Nova versão
+task cleanH2Database(type: Delete) {
+    description = 'Remove arquivos do banco H2'
+    // delete fileTree(dir: '.', includes: ['data/db.mv.db', 'data/db.trace.db', 'data/db.lock.db'])
+    delete fileTree(dir: '.', includes: ['data/db.*.db'])
+    // delete 'data'
+    doLast {
+        println "Arquivos do H2 removidos com sucesso!"
+    }
+}
+
+
+// Para executar: ./gradlew cleanH2Database
+// Estabelece que a task clean depende da task cleanH2Database
+// Isso significa: "antes de executar clean, execute cleanH2Database"
+// clean.dependsOn cleanH2Database
+
+
+// Quando você executa ./gradlew clean,
+// Primeiro: Executa cleanH2Database (deleta arquivos do H2)
+// Depois: Executa clean padrão (limpa diretório build/)
+// ./gradlew clean
+
+
+// 'ok' Tom
+// Para executar: ./gradlew cleanH2Database; ./gradlew bootRun
+
+// Ou executa os 3 comandos
+// ./gradlew clean cleanH2Database bootRun
+
+
+// # ------------------------------------------------------------------------------
+// Nova abordagem
+// Podendo usar apenas "./gradlew bootRun"
+bootRun {
+    dependsOn cleanH2Database
+    doFirst {
+        println "Função bootRun customizada!"
+        println "Limpando banco H2 antes de iniciar a aplicação..."
+    }
+}
+
+// ou com esse, sem precisar da função bootRun.
+// bootRun.dependsOn cleanH2Database
+
+// Opcional: também limpar antes dos testes
+// test.dependsOn cleanH2Database
