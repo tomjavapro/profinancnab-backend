@@ -1,4 +1,4 @@
-package com.tomazcunha.profinancnab.domain;
+package com.tomazcunha.profinancnab.service;
 
 import java.io.IOException;
 import java.nio.file.Path;

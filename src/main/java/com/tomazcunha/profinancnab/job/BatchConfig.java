@@ -29,8 +29,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import com.tomazcunha.profinancnab.domain.Transacao;
-import com.tomazcunha.profinancnab.domain.TransacaoCNAB;
+import com.tomazcunha.profinancnab.entity.Transacao;
+import com.tomazcunha.profinancnab.entity.TransacaoCNAB;
 
 @Configuration
 public class BatchConfig {
