@@ -1,4 +1,4 @@
-package com.tomazcunha.profinancnab;
+package com.tomazcunha.profinancnab.job;
 
 import java.math.BigDecimal;
 
@@ -22,6 +22,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.transaction.PlatformTransactionManager;
+
+import com.tomazcunha.profinancnab.domain.Transacao;
+import com.tomazcunha.profinancnab.domain.TransacaoCNAB;
 
 @Configuration
 public class BatchConfig {

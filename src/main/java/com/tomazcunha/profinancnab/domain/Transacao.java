@@ -1,4 +1,4 @@
-package com.tomazcunha.profinancnab;
+package com.tomazcunha.profinancnab.domain;
 
 import java.math.BigDecimal;
 import java.sql.Date;
