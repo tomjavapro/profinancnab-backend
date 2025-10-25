@@ -7,7 +7,9 @@ import javax.sql.DataSource;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.core.launch.support.TaskExecutorJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
@@ -21,6 +23,7 @@ import org.springframework.batch.item.file.transform.Range;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import com.tomazcunha.profinancnab.domain.Transacao;
@@ -42,6 +45,7 @@ public class BatchConfig {
 
     // Criação dos principais componentes da aplicação.
     // Spring Batch trabalha com um conceito chamado Job, a tarefa que será processada.
+    // O Spring executa o Bean Job por padrão.
     @Bean
     // Job job(Step step, JobRepository jobRepository) {
     Job job(Step step) { // Removendo jobRepository, agora está no construtor.
@@ -176,6 +180,17 @@ public class BatchConfig {
             """) // Os placeholders(:tipo) estão com os nomes iguais aos ??Beans??(ou campos) de Transacao. Por isso podemos usar 'beanMapped()'.
             .beanMapped() // Vai mapear esse placeholders preenchendo com os valores do objeto Transacao recebido
             .build();
+    }
+
+
+    // Configurando o JobLauncher para ser assíncrono.
+    @Bean // Agora temo jobLauncherAsync no contexto de injeção do Spring. JobLauncher Gera um Bean dentro do container.
+    JobLauncher jobLauncherAsync(JobRepository jobRepository) throws Exception {
+        var jobLauncher = new TaskExecutorJobLauncher();
+        jobLauncher.setJobRepository(jobRepository);
+        jobLauncher.setTaskExecutor(new SimpleAsyncTaskExecutor()); // É o taskExecutor que diz se a tarefa é síncrono ou assíncrono.
+        jobLauncher.afterPropertiesSet(); // throws Exception
+        return jobLauncher;
     }
 
 }
