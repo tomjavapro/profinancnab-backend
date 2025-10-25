@@ -62,8 +62,9 @@ public class CNABService {
             )
             .addJobParameter(
                 "cnabFile",
-                "file:" + targetLocation.toString(),
-                String.class
+                "file:" + targetLocation.toString(), // Nome para considerar unicidade.
+                String.class,
+                false // Com true, se o diretório do arquivo mudar, é possível reprocessar, com false isso não acontece mais. Só o nome do arquivo será considerado unicidade agora.
             )
             .toJobParameters(); // Tranformando em parâmetros do job.
 
