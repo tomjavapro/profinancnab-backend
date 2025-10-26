@@ -26,13 +26,13 @@ public class TransacaoController {
     public TransacaoController(TransacaoService service) {
         this.service = service;
     }
-    // Testando acesso ao banco
-    @GetMapping
-    Iterable<Transacao> listAll() {
 
-        // Não estou usando o 'listbleTotaisTransacoesPorNomeDaLoja' por ter criado novo método.
-        return service.IterableTotaisTransacoesPorNomeDaLoja();
-    }
+    // Testando acesso ao banco
+    // @GetMapping
+    // Iterable<Transacao> listAll() {
+    //     // Não estou usando o 'listbleTotaisTransacoesPorNomeDaLoja' por ter criado novo método.
+    //     return service.IterableTotaisTransacoesPorNomeDaLoja();
+    // }
     // ./gradlew bootRun
 
     // Incluindo primeiro os registros
@@ -41,5 +41,19 @@ public class TransacaoController {
 
     // Testando no terminal e firefox
     // curl http://localhost:8080/transacoes
+
+
+    // Voltando a receber Lista e não mais Iterable
+    @GetMapping
+    List<Transacao> listAll() {
+        // Não estou usando o 'listbleTotaisTransacoesPorNomeDaLoja' por ter criado novo método.
+        return service.listTotaisTransacoesPorNomeDaLoja();
+    }
+    // Rodando para testar
+    // ./gradlew bootRun
+    // curl -X POST -F "file=@files/CNAB.txt" http://localhost:8080/cnab/upload
+    // curl http://localhost:8080/transacoes
+    // Ok, Agora todas 'nomeDaLoja "BAR DO JOÃO"' estão vindo primeiro,
+    // depois passa a vir 'nomeDaLoja "LOJA DO Ó - FILIAL"', e assim vai.
 
 }

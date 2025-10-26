@@ -18,16 +18,25 @@ public class TransacaoService {
         this.repository = repository;
     }
 
+    // Mudando para findByOrderByNomeDaLojaAscIdDesc.
     // public List<TransacaoReport> listTotaisTransacoesPorNomeDaLoja() {
-    //     // Para trazer os valores, precisamos dos dados do banco. Precisamos criar os repositórios.
-
-    //     var transacoes = repository.findAll();
-    // }
+    public List<Transacao> listTotaisTransacoesPorNomeDaLoja() {
+        // Para trazer os valores, precisamos dos dados do banco. Precisamos criar os repositórios.
+        // var transacoes = repository.findAll();
+        var transacoes = repository.findAllByOrderByNomeDaLojaAscIdDesc();
+        return transacoes;
+    }
 
     // Testando a consulta no banco
     public Iterable<Transacao> IterableTotaisTransacoesPorNomeDaLoja() {
-
         var transacoes = repository.findAll();
         return transacoes;
     }
+
+
+
+
+
+
+
 }
