@@ -6,16 +6,22 @@ import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+// O editor não atualizou o menu de sugestões depois de baixar as dependência do Spring Data JDBC. Tive que incluir o import na mão.
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+
 public record Transacao(
-    Long id,
+    @Id Long id, // Precisamos da anotação para usar com o Spring Data JDBC/JPA.
     Integer tipo,
     Date data,
     BigDecimal valor,
     Long cpf,
     String cartao,
     Time hora,
-    String donoDaLoja,
-    String nomeDaLoja) {
+
+    // OBS importante: O H2 assume que os nomes são em letra maiúsculas, os nomes precisam estar assim também.
+    @Column("DONO_LOJA") String donoDaLoja, // Especificando nome deferente no banco, o mesmo nome no schema.sql.
+    @Column("NOME_LOJA") String nomeDaLoja) {
 
     // Wither Pattern
     // Esse método vai recriar a Transacao mudar apenas a propriedade que eu preciso atualizar. Não é realmente uma atualização, já que record é imutável, é um objeto novo.

@@ -30,6 +30,10 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // Para TransacaoRepository
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    // Com o JDBC teremos mais poder para criação das consultas, diferente da abstração do JPA que também pode limitar a performance.
 }
 
 tasks.named('test') {
