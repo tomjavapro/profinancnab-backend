@@ -24,7 +24,7 @@ public record Transacao(
     @Column("NOME_LOJA") String nomeDaLoja) {
 
     // Wither Pattern
-    // Esse método vai recriar a Transacao mudar apenas a propriedade que eu preciso atualizar. Não é realmente uma atualização, já que record é imutável, é um objeto novo.
+    // Esse método vai recriar a Transacao e mudar apenas a propriedade que eu preciso atualizar. Não é realmente uma atualização, já que record é imutável, é um objeto novo.
     public Transacao withValor(BigDecimal valor){
         return new Transacao(
             this.id(),

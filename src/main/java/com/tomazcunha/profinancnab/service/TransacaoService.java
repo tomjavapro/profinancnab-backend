@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.tomazcunha.profinancnab.entity.TipoTransacao;
 import com.tomazcunha.profinancnab.entity.Transacao;
 import com.tomazcunha.profinancnab.entity.TransacaoReport;
 import com.tomazcunha.profinancnab.repository.TransacaoRepository;
@@ -39,7 +40,10 @@ public class TransacaoService {
 
         transacoes.forEach(transacao -> { // Percorrer cada transacao em transacoes.
             String nomeDaLoja = transacao.nomeDaLoja(); // Captura o nome da loja
-            BigDecimal valor = transacao.valor();
+
+            // Agora vamos multiplicar pelo sinal. Com isso não precisamos incluir um "if do tipo" em cada sérvice que manipular transação, agora está centralizado no enum (com switch). O teste só vai ser feito uma unica vez.
+            var tipoTransacao = TipoTransacao.findByTipo(transacao.tipo());
+            BigDecimal valor = transacao.valor().multiply(tipoTransacao.getSinal()); // multiply só pode ser feita com BigDecimal
 
             // Estamos criando o novo Hash de TransacaoRepost(reportMap) e para cada trasação(de uma loja espeífica) buscada do banco, vamos adicionar nesse novo report, fazendo a inclusão se essa transação dessa loja ainda não existir, ou se já existir, somar o valor e adicionar a lista de transação dessa loja.
             // key vai ser o nome da loja
@@ -107,9 +111,14 @@ public class TransacaoService {
                 // "var report" é um objeto imutário, mas precismos adicionar o saldo nele, por isso vamos criar novas funções em TransacaoReport.
 
                 // return report.addTotal(valor);
-                return report.addTotal(valor).addTransacao(transacao);
+                // return report.addTotal(valor).addTransacao(transacao);
                 // Valor adicionado. O relatório será montado com esses totais e o detalhe de cada transação que levou a obter esse total, por isso, também precisamos adicional a tranação. Vamos criar addTransacao em TransacaoReport.
                 // Agora temos um relatória preenchido agrupando totais e transações respectivas por loja.
+
+                // Atualizando o record.
+                // Modificando para os valores já serem mostradados da forma negativa ou positiva.
+                // Agora com os números negativos no valor, não só no total.
+                return report.addTotal(valor).addTransacao(transacao.withValor(valor));
 
             });
         });
