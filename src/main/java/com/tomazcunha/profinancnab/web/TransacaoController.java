@@ -45,7 +45,8 @@ public class TransacaoController {
 
     // Voltando a receber Lista e não mais Iterable
     @GetMapping
-    List<Transacao> listAll() {
+    // List<Transacao> listAll() {
+    List<TransacaoReport> listAll() { // Novo retorno é uma lista de TransacaoReport.
         // Não estou usando o 'listbleTotaisTransacoesPorNomeDaLoja' por ter criado novo método.
         return service.listTotaisTransacoesPorNomeDaLoja();
     }
@@ -55,5 +56,12 @@ public class TransacaoController {
     // curl http://localhost:8080/transacoes
     // Ok, Agora todas 'nomeDaLoja "BAR DO JOÃO"' estão vindo primeiro,
     // depois passa a vir 'nomeDaLoja "LOJA DO Ó - FILIAL"', e assim vai.
+
+    // Novo teste com TransacaoReport
+    // Consultar por Nome de Loja
+    // Agrupar por Nome de Loja
+    // ./gradlew bootRun
+    // curl -X POST -F "file=@files/CNAB.txt" http://localhost:8080/cnab/upload
+    // curl http://localhost:8080/transacoes | jason_pp
 
 }
