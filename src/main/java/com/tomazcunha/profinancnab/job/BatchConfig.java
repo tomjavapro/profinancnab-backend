@@ -29,6 +29,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import com.tomazcunha.profinancnab.entity.TipoTransacao;
 import com.tomazcunha.profinancnab.entity.Transacao;
 import com.tomazcunha.profinancnab.entity.TransacaoCNAB;
 
@@ -135,6 +136,13 @@ public class BatchConfig {
         return item -> {
             // item é do tipo TransacaoCNAB, então vamos criar uma Transacao a partir dos dados do item.
 
+            // Incluindo agora o valor normalizado (dividido, positivo ou negativo) para ser gravado no banco.
+            var tipoTransacao = TipoTransacao.findByTipo(item.tipo());
+            var valorNormalizado = item.valor()
+                .divide(new BigDecimal(100))
+                .multiply(tipoTransacao.getSinal());
+
+
             // Não vamos apenas transformar um objeto em outro, precisamos formatar/normalizar os valores, data para o tipo data. Como estamos usando Record que é um objeto imutável, vamos usar um padrão para trabalhar com imutabilidade (Wither pattern).
             // Wither (murchar, secar, intimidar, mirrar, perder vigor)
 
@@ -144,7 +152,8 @@ public class BatchConfig {
                 item.tipo(),
                 null,
                 // null, // valor recebia null
-                item.valor().divide(BigDecimal.valueOf(100)),
+                // item.valor().divide(BigDecimal.valueOf(100)),
+                valorNormalizado, // Normalizado (dividido, positivo ou negativo).
                 item.cpf(),
                 item.cartao(),
                 null,

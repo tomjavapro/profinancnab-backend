@@ -42,8 +42,12 @@ public class TransacaoService {
             String nomeDaLoja = transacao.nomeDaLoja(); // Captura o nome da loja
 
             // Agora vamos multiplicar pelo sinal. Com isso não precisamos incluir um "if do tipo" em cada sérvice que manipular transação, agora está centralizado no enum (com switch). O teste só vai ser feito uma unica vez.
-            var tipoTransacao = TipoTransacao.findByTipo(transacao.tipo());
-            BigDecimal valor = transacao.valor().multiply(tipoTransacao.getSinal()); // multiply só pode ser feita com BigDecimal
+            // var tipoTransacao = TipoTransacao.findByTipo(transacao.tipo());
+            // BigDecimal valor = transacao.valor().multiply(tipoTransacao.getSinal()); // multiply só pode ser feita com BigDecimal
+                // Agora a lógica de normalização "var tipoTransacao" e "BigDecimal valor" estão em "BatchConfig.processor".
+                // Com isso, poderá a normalização também ser gravada no banco.
+
+            var valor = transacao.valor(); // Agora apenas pegando o valor, sem modificação, já que já vem normalizado do banco.
 
             // Estamos criando o novo Hash de TransacaoRepost(reportMap) e para cada trasação(de uma loja espeífica) buscada do banco, vamos adicionar nesse novo report, fazendo a inclusão se essa transação dessa loja ainda não existir, ou se já existir, somar o valor e adicionar a lista de transação dessa loja.
             // key vai ser o nome da loja
@@ -118,7 +122,8 @@ public class TransacaoService {
                 // Atualizando o record.
                 // Modificando para os valores já serem mostradados da forma negativa ou positiva.
                 // Agora com os números negativos no valor, não só no total.
-                return report.addTotal(valor).addTransacao(transacao.withValor(valor));
+                // return report.addTotal(valor).addTransacao(transacao.withValor(valor));
+                return report.addTotal(valor).addTransacao(transacao); // Não estou mais gravando no record 'Transacao' o valor normalizado, ele agora já foi normalizado antes de ser gravado no banco.
 
             });
         });
