@@ -2,6 +2,7 @@ package com.tomazcunha.profinancnab.web;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,6 +46,9 @@ public class TransacaoController {
 
     // Voltando a receber Lista e não mais Iterable
     @GetMapping
+    @CrossOrigin(origins = {"http://localhost:9090"})
+        // Permitindo essa origem chamar o backend. 9090 é a porta atual do frontend.
+        // # Esse erro de CORS vai acontecer quando temos duas aplicações (Frontend e Backend) executando no mesmo domínio (no caso localhost, mudando apenas a porta), isso é uma proteção incluída nos navegadores para evitar que pessoas mal intencionadas executem rotinas que não deveriam rodar no enderelo original.
     // List<Transacao> listAll() {
     List<TransacaoReport> listAll() { // Novo retorno é uma lista de TransacaoReport.
         // Não estou usando o 'listbleTotaisTransacoesPorNomeDaLoja' por ter criado novo método.
