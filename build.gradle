@@ -93,3 +93,14 @@ bootRun {
 
 // Opcional: também limpar antes dos testes
 // test.dependsOn cleanH2Database
+
+
+// # ------------------------------------------------------------------------------
+// Incluindo a limpeza do banco H2 quando a função bootJar também for executada.
+bootJar {
+    dependsOn cleanH2Database
+    doFirst {
+        println "Função bootJar customizada!"
+        println "Limpando banco H2 antes de iniciar a aplicação..."
+    }
+}
