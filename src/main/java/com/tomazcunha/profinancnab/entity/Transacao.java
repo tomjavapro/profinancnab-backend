@@ -20,8 +20,12 @@ public record Transacao(
     Time hora,
 
     // OBS importante: O H2 assume que os nomes são em letra maiúsculas, os nomes precisam estar assim também.
-    @Column("DONO_LOJA") String donoDaLoja, // Especificando nome deferente no banco, o mesmo nome no schema.sql.
-    @Column("NOME_LOJA") String nomeDaLoja) {
+    // @Column("DONO_LOJA") String donoDaLoja, // Especificando nome diferente no banco. O mesmo nome que está em schema.sql.
+    // @Column("NOME_LOJA") String nomeDaLoja) {
+
+    // Agora no Postgres, não precisamos que os nomes estejam em maiúculo, vamos voltar para minúsculo.
+    @Column("dono_loja") String donoDaLoja,
+    @Column("nome_loja") String nomeDaLoja) {
 
     // Wither Pattern
     // Esse método vai recriar a Transacao e mudar apenas a propriedade que eu preciso atualizar. Não é realmente uma atualização, já que record é imutável, é um objeto novo.
