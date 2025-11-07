@@ -35,7 +35,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     // Com o JDBC teremos mais poder para criação das consultas, diferente da abstração do JPA que também pode limitar a performance.
 
-    runtimeOnly 'org.postgresql:postgresql'
+    // runtimeOnly 'org.postgresql:postgresql'
+    implementation 'org.postgresql:postgresql'
 }
 
 tasks.named('test') {
