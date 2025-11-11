@@ -25,7 +25,8 @@ public class CNABController {
 
     @PostMapping("upload")
     // @CrossOrigin(origins = {"http://localhost:9090"}) // Permitindo essa origem chamar o backend. 9090 é a porta atual do frontend.
-    @CrossOrigin(origins = { "http://localhost:9096" })
+    // @CrossOrigin(origins = { "http://localhost:9096" })
+    @CrossOrigin(origins = { "https://profinancnab-frontend.onrender.com" }) // Permissão para o deploy.
     public String upload(@RequestParam("file") MultipartFile file) throws Exception {
         service.uploadCnabFile(file); // Chamando service que fará o upload do arquivo.
         return "Processamento iniciado!";

@@ -47,7 +47,8 @@ public class TransacaoController {
     // Voltando a receber Lista e não mais Iterable
     @GetMapping
     // @CrossOrigin(origins = {"http://localhost:9090"})
-    @CrossOrigin(origins = {"http://localhost:9096"})  // Alterando para rodar no container.
+    // @CrossOrigin(origins = {"http://localhost:9096"})  // Alterando para rodar no container.
+    @CrossOrigin(origins = {"https://profinancnab-frontend.onrender.com"})  // Permissão para o deploy.
         // Permitindo essa origem chamar o backend. 9090 é a porta atual do frontend.
         // # Esse erro de CORS vai acontecer quando temos duas aplicações (Frontend e Backend) executando no mesmo domínio (no caso localhost, mudando apenas a porta), isso é uma proteção incluída nos navegadores para evitar que pessoas mal intencionadas executem rotinas que não deveriam rodar no enderelo original.
     // List<Transacao> listAll() {
