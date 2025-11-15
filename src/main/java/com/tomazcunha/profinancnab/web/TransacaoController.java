@@ -32,7 +32,7 @@ public class TransacaoController {
     // @GetMapping
     // Iterable<Transacao> listAll() {
     //     // Não estou usando o 'listbleTotaisTransacoesPorNomeDaLoja' por ter criado novo método.
-    //     return service.IterableTotaisTransacoesPorNomeDaLoja();
+    //     return service.iterableTotaisTransacoesPorNomeDaLoja();
     // }
     // ./gradlew bootRun
 
