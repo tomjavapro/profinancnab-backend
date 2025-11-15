@@ -140,7 +140,7 @@ public class TransacaoService {
     }
 
     // Testando a consulta no banco
-    public Iterable<Transacao> IterableTotaisTransacoesPorNomeDaLoja() {
+    public Iterable<Transacao> iterableTotaisTransacoesPorNomeDaLoja() {
         var transacoes = repository.findAll();
         return transacoes;
     }
