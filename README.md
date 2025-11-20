@@ -1,22 +1,25 @@
-# Sistema de Processamento de Arquivos CNAB
+# ProFin CNAB - Sistema de Processamento de Arquivos de Transações Financeiras CNAB (Backend)
+
+![Badge de Licença](https://img.shields.io/badge/license-MIT-blue.svg)
 
 Backend desenvolvido em Java e Spring Boot para processar arquivos de transações financeiras no formato CNAB (Centro Nacional de Automação Bancária).
 
-## Visão Geral
+## 📖 Visão Geral
 
 A aplicação utiliza o Spring Batch para implementar um fluxo de trabalho robusto de leitura, processamento e gravação de dados. O sistema é projetado para receber um arquivo `.txt` contendo transações, normalizar essas informações e persisti-las em um banco de dados relacional.
 
 O processamento do job é iniciado através de um endpoint REST, permitindo a execução assíncrona da tarefa.
 
-## Funcionalidades
+## ✨ Funcionalidades
 
 - **Leitura de Arquivo CNAB:** Utiliza `FlatFileItemReader` para ler arquivos de texto com layout de colunas de tamanho fixo.
 - **Processamento de Transações:** Normaliza os dados de cada transação, ajustando valores monetários, convertendo formatos de data/hora e tratando os tipos de transação (débito, crédito, etc.).
 - **Persistência em Banco de Dados:** Grava as transações processadas em um banco de dados usando `JdbcBatchItemWriter`.
 - **Execução Assíncrona:** O job do Spring Batch é executado em uma thread separada para não bloquear a API.
 
-## Tecnologias Utilizadas
+## 🛠️ Tecnologias Utilizadas
 
+#### **Backend** ([profinancnab-backend/README.md](https://github.com/tomjavapro/profinancnab-backend/blob/main/README.md))
 - **Java 17+**
 - **Spring Boot**
 - **Spring Batch** (para processamento em lote)
@@ -25,8 +28,17 @@ O processamento do job é iniciado através de um endpoint REST, permitindo a ex
 - **PostgreSQL** (banco de dados principal)
 - **H2 Database** (para testes e desenvolvimento local)
 - **Gradle** (gerenciador de dependências e build)
-
 - **Docker** e **Docker Compose** (para orquestração de ambientes)
+
+#### **Frontend** ([profinancnab-frontend/README.md](https://github.com/tomjavapro/profinancnab-frontend/blob/main/README.md))
+- **React** (19.1.1)
+- **Vite** (7.1.7)
+- **Tailwindcss** (4.1.16)
+- **JavaScript**
+- **HTML5**
+- **CSS3**
+- **Font Awesome** (para ícones)
+- **Docker**
 
 ## Estrutura do Projeto
 
@@ -47,7 +59,7 @@ profinancnab/
 └── gradlew                   # Gradle Wrapper
 ```
 
-## Como Executar
+## 🚀 Como Executar
 
 ### Pré-requisitos
 
@@ -57,8 +69,8 @@ profinancnab/
 ### 1. Clonar o Repositório
 
 ```bash
-git clone <url-do-seu-repositorio>
-cd profinancnab
+git clone https://github.com/tomjavapro/profinancnab-backend
+cd profinancnab-backend
 ```
 
 ### 2. Executar a Aplicação
@@ -73,6 +85,21 @@ O projeto pode ser executado localmente usando o Gradle Wrapper.
 ./gradlew.bat bootRun
 ```
 
+### 2.1. Executar com Docker
+
+Para executar a aplicação em um contêiner Docker, você pode construir a imagem a partir do Dockerfile e depois iniciar um contêiner.
+
+1. Construa a imagem Docker:
+    ```
+    docker build -t profinancnab-backend .
+    ```
+
+2. Execute o contêiner:
+    ```
+    docker run -p 8080:8080 profinancnab-backend
+    ```
+
+
 
 ### 3. Iniciar o Processamento
 
@@ -84,8 +111,12 @@ Para iniciar o processamento de um arquivo CNAB, envie uma requisição `POST` p
 curl -X POST -F "file=@/caminho/para/seu/CNAB.txt" http://localhost:8080/cnab/upload
 ```
 
+### 4. Executar o Frontend
 
-## Testes
+- [profinancnab-frontend/README.md](https://github.com/tomjavapro/profinancnab-frontend/blob/main/README.md)
+
+
+## 🧪 Testes
 
 Os arquivos de teste para este projeto estão localizados em:
 ```
@@ -106,7 +137,7 @@ A estratégia de testes foi dividida em duas categorias principais:
 Essa abordagem garante tanto a correção da lógica de negócio em pequena escala quanto a integração robusta de todos os componentes do sistema.
 
 
-## Deploy
+## ⚙️ Deploy
 
 Este projeto foi implantado utilizando os seguintes serviços:
 
@@ -122,3 +153,8 @@ Este projeto foi implantado utilizando os seguintes serviços:
     - Um serviço de banco de dados PostgreSQL gerenciado foi utilizado para persistência dos dados.
 
 A configuração de deploy no Render.com foi realizada para acessar diretamente os repositórios GitHub mencionados, facilitando a integração contínua e o deploy automático.
+
+
+## 📝 Licença
+
+Este projeto está sob a licença MIT.
